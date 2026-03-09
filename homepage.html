@@ -24,10 +24,10 @@
     </style>
 
 </head>
-<body class="bg-base-300">
+<body >
 
     <header>
-        <div class="navbar bg-base-100 shadow-sm flex justify-between px-20">
+        <div class="navbar bg-base-100 shadow-sm flex justify-between px-20 rounded-lg">
             <div class="nav-logo flex items-center gap-1">
                 <img class="h-9 w-9" src="images/github-logo.png" alt="">
                 <h2 class="text-2xl font-semibold">GitHub Issues Tracker</h2>
@@ -42,6 +42,31 @@
         </div>
 
     </header>
+
+    <section class="max-w-[1110px] mx-auto bg-base-300 mt-16 py-5 px-6 space-x-2 rounded-lg shadow-md" >
+        <button class="btn btn-primary btn-outline h-10 w-28">all</button>
+        <button class="btn btn-primary btn-outline h-10 w-28">Open</button>
+        <button class="btn btn-primary btn-outline h-10 w-28">Closed</button>
+    </section>
+
+    <section class="max-w-[1110px] mx-auto bg-base-300 mt-2 py-3 px-6 space-x-2 relative rounded-lg shadow-md" >  
+        <div class="flex">
+            <img class="h-12 w-12 border-6 border-[#b092f5b2] rounded-full mr-2" src="images/Aperture.png" alt="">
+            <div class="">
+                <h2 class="text-xl font-bold">  50 Issues  </h2>
+                <p class="text-[#64748B]"> Track and manage your project issues</p>
+            </div> 
+        </div>
+
+        <div class="flex gap-15 absolute top-11 right-20">
+            <p class="border-l-8 border-[#00A96E] h-2 w-2 rounded-full ">Open</p>
+            <p class="border-l-8 border-[#A855F7] h-2 w-2 rounded-full ">Closed</p>
+        </div>
+   
+
+    </section>
+
+
 
     <script src="script/home.js"></script>
 </body>
