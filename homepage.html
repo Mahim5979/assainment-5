@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GitHub Issues Tracker</title>
+    <title>Home Page</title>
 
     <!-- icon -->
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -22,33 +22,27 @@
         *{font-family: "Inter", sans-serif;
         }
     </style>
+
 </head>
 <body class="bg-base-300">
-    <header class="min-h-screen max-w-md mx-auto bg-base-100 ">
-       <div class="logo mx-auto pt-32">
-        <img class="mx-auto mb-12" src="images/github-logo.png" alt="">
-        <p class="text-[#64748B] text-center"> Sign in to manage your issues</p>
-       </div>
 
-       <div class="form">
-        <div class="card bg-base-100 w-full max-w-sm shrink-0 mx-auto shadow-2xl mt-6">
-            <div class="card-body">
-                <fieldset class="fieldset">
-                <label class="label">Username</label>
-                <input id="input-name" type="text" class="input" placeholder="Enter Username" />
-                <label class="label">Password</label>
-                <input id="input-pass" type="password" class="input"    placeholder="Password" />
-                <div><a class="link link-hover">Forgot password?</a></div>
-                 <button id="login-btn" class="btn btn-primary mt-4">Sign In</button>
-                </fieldset>
+    <header>
+        <div class="navbar bg-base-100 shadow-sm flex justify-between px-20">
+            <div class="nav-logo flex items-center gap-1">
+                <img class="h-9 w-9" src="images/github-logo.png" alt="">
+                <h2 class="text-2xl font-semibold">GitHub Issues Tracker</h2>
+
             </div>
-    </div>
-       </div>
-        
+  
+            <div class="flex gap-4">
+                <input type="text" placeholder="Search Issues..." class="input input-bordered w-24 md:w-auto" />
+                <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> New Issue</button>
+    
+            </div>
+        </div>
+
     </header>
 
-
-
-    <script src="script/login.js"></script>
+    <script src="script/home.js"></script>
 </body>
 </html>
