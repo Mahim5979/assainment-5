@@ -21,13 +21,15 @@
     <style>
         *{font-family: "Inter", sans-serif;
         }
+
+    
     </style>
 
 </head>
 <body >
 
     <header>
-        <div class="navbar bg-base-100 shadow-sm flex justify-between px-20 rounded-lg">
+        <div class="navbar bg-base-100 shadow-sm flex-col md:flex-row justify-between px-20 rounded-lg">
             <div class="nav-logo flex items-center gap-1">
                 <img class="h-9 w-9" src="images/github-logo.png" alt="">
                 <h2 class="text-2xl font-semibold">GitHub Issues Tracker</h2>
@@ -35,6 +37,7 @@
             </div>
   
             <div class="flex gap-4">
+                <button class="btn btn-ghost btn-circle avatar"><i class="fa-solid fa-magnifying-glass"></i></button>
                 <input type="text" placeholder="Search Issues..." class="input input-bordered w-24 md:w-auto" />
                 <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> New Issue</button>
     
@@ -44,21 +47,21 @@
     </header>
 
     <section class="max-w-[1110px] mx-auto bg-base-300 mt-16 py-5 px-6 space-x-2 rounded-lg shadow-md" >
-        <button class="btn btn-primary btn-outline h-10 w-28">all</button>
-        <button class="btn btn-primary btn-outline h-10 w-28">Open</button>
-        <button class="btn btn-primary btn-outline h-10 w-28">Closed</button>
+        <button onclick="switchBtn(`all`)" id="btn-all" class=" btn h-10 w-28">all</button>
+        <button onclick="switchBtn(`open`)" id="btn-open"  class="btn h-10 w-28">Open</button>
+        <button onclick="switchBtn(`close`)" id="btn-close" class="btn h-10 w-28">Closed</button>
     </section>
 
-    <section class="max-w-[1110px] mx-auto bg-base-300 mt-2 py-3 px-6 space-x-2 relative rounded-lg shadow-md" >  
+    <section class="max-w-[1110px] mx-auto bg-base-300 mt-2 py-3 px-6 space-x-2 relative rounded-lg shadow-md">  
         <div class="flex">
             <img class="h-12 w-12 border-6 border-[#b092f5b2] rounded-full mr-2" src="images/Aperture.png" alt="">
             <div class="">
-                <h2 class="text-xl font-bold">  50 Issues  </h2>
+                <h2 class="text-xl font-bold"> <span id="issue-count">50</span> Issues  </h2>
                 <p class="text-[#64748B]"> Track and manage your project issues</p>
             </div> 
         </div>
 
-        <div class="flex gap-15 absolute top-11 right-20">
+        <div class="flex gap-15  md:absolute top-11 right-20">
             <p class="border-l-8 border-[#00A96E] h-2 w-2 rounded-full ">Open</p>
             <p class="border-l-8 border-[#A855F7] h-2 w-2 rounded-full ">Closed</p>
         </div>
@@ -66,6 +69,70 @@
 
     </section>
 
+
+    <section id="issue-container" class=" hidden max-w-[1110px] mx-auto bg-base-200 grid grid-cols-2 md:grid-cols-3 gap-4 mt-3 rounded-lg shadow-md">
+
+
+    </section>
+
+
+    <section id="open-issue-container" class="hidden max-w-[1110px] mx-auto bg-base-200 grid grid-cols-2 md:grid-cols-3 gap-4 mt-3 rounded-lg shadow-md">
+
+        Open Issues Container
+    </section>
+
+    <section id="close-issue-container" class="hidden max-w-[1110px] mx-auto bg-base-200 grid grid-cols-2 md:grid-cols-3 gap-4 mt-3 rounded-lg shadow-md">
+
+        Close Issues Container
+    </section>
+
+
+
+
+
+
+    <!-- <section id="open-issue-container" class="max-w-[1110px] mx-auto bg-base-200 grid grid-cols-2 md:grid-cols-3 gap-4 mt-3 rounded-lg shadow-md">
+
+        Open Issues Container
+    </section>
+
+    <section id="close-issue-container" class=" max-w-[1110px] mx-auto bg-base-200 grid grid-cols-2 md:grid-cols-3 gap-4 mt-3 rounded-lg shadow-md">
+
+        Close Issues Container
+    </section> -->
+
+
+
+
+<!-- 
+
+    <section class="max-w-[1110px] mx-auto bg-base-200 grid grid-cols-2 md:grid-cols-3 gap-5 ">
+        <div class="card w-100% shadow-md py-3 px-4 space-y-4">
+            <div class="flex justify-between px-2 ">
+                <img src="images/Open-Status.png" alt="">
+                <h2 class="border-2 border-red-300 bg-rose-200 font-bold text-red-400 px-4 h-5 text-xs rounded-full" >HIGH</h2>
+            </div>
+
+            <div class="">
+                <h2 class="font-semibold text-lg">Fix navigation menu on mobile devices</h2>
+                <p class=" text-[#64748B]">The navigation menu doesn't collapse properly on mobile devices...</p>
+                <button class="border-2 border-red-300 bg-rose-200 font-bold text-red-400 px-4 h-5 text-xs rounded-full"><i class="fa-solid fa-bug"></i> Bug</button>
+                <button class="border-2 border-amber-400 bg-yellow-300 font-bold text-amber-500 px-4 h-5 text-xs rounded-full"><i class="fa-solid fa-life-ring"></i> help wanted</button>
+            </div>
+
+            <div class=" text-sm text-[#64748B] border-t-2 border-gray-300 flex justify-between">
+                <p>john_doe</p>
+                <p>2024-01-15T10:30:00Z</p>
+            </div>
+            <div class=" text-sm text-[#64748B] flex justify-between">
+                <p>jane smith</p>
+                <p>2024-01-15T10:30:00Z</p>
+            </div>
+        </div>
+      
+
+      
+    </section> -->
 
 
     <script src="script/home.js"></script>
