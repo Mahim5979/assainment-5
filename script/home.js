@@ -1,82 +1,71 @@
-  
+
+let allIssues = []; 
+const issueContainer = document.getElementById("issue-container");
 
 let currentBtn = "all"
-const btnActive = ["btn-primary"];
-const btnInactive = ["btn-primary", "btn-outline", "btn-transparent"];
+function switchBtn(id) {
+    const btnAll = document.getElementById('btn-all');
+    const btnOpen = document.getElementById('btn-open');
+    const btnClose = document.getElementById('btn-close');
 
-const issueContainer = document.getElementById("issue-container")
-const openIssueContainer = document.getElementById("open-issue-container")
-const closeIssueContainer = document.getElementById("close-issue-container")
 
-function switchBtn(button){
-    const btns = ["all", "open", "close"];
+    [btnAll, btnOpen, btnClose].forEach(btn => {
+        btn.classList.remove('btn-primary');
+        btn.classList.add('btn-primary', 'btn-outline');
+    });
 
-    for (const btn of btns) {
-        const btnName = document.getElementById("btn-" + btn);
-        if(btn === button) {
-            btnName.classList.remove(...btnInactive)
-            btnName.classList.add(btnActive)
-        } else{
-            btnName.classList.remove(btnActive)
-            btnName.classList.add(...btnInactive)
-        }
+
+    const clickedBtn = document.getElementById("btn-" + id);
+    if(clickedBtn) {
+        clickedBtn.classList.remove('btn-primary', 'btn-outline');
+        clickedBtn.classList.add('btn-primary');
     }
-
-    const pages = [issueContainer, openIssueContainer, closeIssueContainer]
-
-    for (const section of pages) {
-        section.classList.add("hidden")
-
-    }
-
-    if (button === "all") {
-        issueContainer.classList.remove("hidden")
-    }
-    else if(button === "open") {
-        openIssueContainer.classList.remove("hidden") 
-    }
-    else{  
-        closeIssueContainer.classList.remove("hidden")
-    }
-
 }
 
-// count update
-// const totalCard = document.getElementById("count")
+function openModal(issue) {
+    document.getElementById('modal-title').innerText = issue.title;
+    document.getElementById('modal-status-badge').innerText = issue.status;
+    document.getElementById('modal-author').innerText = `Opened by ${issue.author}`;
+    document.getElementById('modal-date').innerText = issue.createdAt;
+    document.getElementById('modal-description').innerText = issue.description;
+    document.getElementById('modal-assignee').innerText = issue.assignee || issue.author;
+    document.getElementById('modal-priority').innerText = issue.priority;
+    document.getElementById('modal-labels').innerHTML = issue.labels.map(label => `
+        <span class="text-xs border rounded-full px-3 py-1">${label}</span>
+    `).join('');
+    document.getElementById('my_modal_5').showModal();
+}
 
-// totalCard.innerText = issueContainer.children.length;
 
-switchBtn(currentBtn)
+async function loadIssues() {
+    const response = await fetch('https://phi-lab-server.vercel.app/api/v1/lab/issues');
+    const json = await response.json();
+    allIssues = json.data;
+    displayIssue(allIssues);
+}
 
-
-
-const loadIssues = () => {
-    fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues")
-    .then((res) => res.json())
-    .then((json) => displayIssue(json.data));
-};
 
 const displayIssue = (issues) => {
-    const issueContainer = document.getElementById("issue-container")
-    issueContainer.innerHTML = "";
+    issueContainer.innerHTML = '';
+    
+    issues.forEach(issue => {
+        const borderColor = issue.status === 'open' ? '#00A96E' : '#A855F7';
+        const statusIcon = issue.status === 'open' ? './images/Open-Status.png' : './images/Closed- Status .png';
+        const issueDiv = document.createElement('div');
+        issueDiv.classList.add('cursor-pointer');
+        issueDiv.onclick = () => openModal(issue);
 
-    for (let issue of issues ){
-        const issueDiv = document.createElement("div");
         issueDiv.innerHTML = `
-        <div class="card w-100% shadow-md py-3 px-4 space-y-4 border-t-4 border-[#00A96E]">
-            <div class="flex justify-between px-2 ">
-                <img src="images/Open-Status.png" alt="">
-                <h2 class="border-2 border-red-300 bg-rose-200 font-bold text-red-400 px-4 h-5 text-xs rounded-full">${issue.priority}</h2>
-                <p Class="hidden"> ${issue.status} </p>
+        <div style="border-top: 4px solid ${borderColor}" class="card bg-white shadow-md rounded-2xl p-4 flex flex-col gap-3">
+            <div class="flex justify-between">
+              <img src="${statusIcon}" alt="${issue.status}" class="h-5 w-5">
+              <span class="text-xs font-semibold rounded-full px-3 py-1 border bg-amber-200">${issue.priority}</span>
             </div>
-
-            <div class="">
-                <h2 class="font-semibold text-lg">${issue.title}</h2>
-                <p class=" text-[#64748B]">${issue.description}</p>
-                <button class="border-2 border-red-300 bg-rose-200 font-bold text-red-400 px-4 h-5 text-xs rounded-full"><i class="fa-solid fa-bug"></i> ${issue.labels[0]}</button>
-                <button class="border-2 border-amber-400 bg-yellow-300 font-bold text-amber-500 px-4 h-5 text-xs rounded-full"><i class="fa-solid fa-life-ring"></i> ${issue.labels[1]}</button>
+            <h2 class="font-bold text-lg">${issue.title}</h2>
+            <p class="text-sm text-[#64748B]">${issue.description.slice(0, 100)}...</p>
+            <div class="flex gap-2">
+                ${issue.labels.map(label =>`<span class="border-2 border-red-300 bg-rose-200 font-bold text-red-400 px-2 h-5 text-xs rounded-full">${label}</span>`).join('')}
             </div>
-
             <div class=" text-sm text-[#64748B] border-t-2 border-gray-300 flex justify-between">
                 <p>${issue.author}</p>
                 <p>${issue.createdAt}</p>
@@ -85,107 +74,40 @@ const displayIssue = (issues) => {
                 <p>${issue.assignee}</p>
                 <p>${issue.updatedAt}</p>
             </div>
-        </div>        
-        `
+        </div>`;
+        issueContainer.appendChild(issueDiv);
+    });
 
-        issueContainer.append(issueDiv);
-
-    }
-
-    
+    document.getElementById('issue-count').innerText = issues.length;
 }
 
 
-// const displayOpenIssue = (issues) =>{
-//     const issue = document.getElementById("open-issue-container")
-//     issue.innerHTML = "";
+document.getElementById('btn-all').addEventListener('click', () => {
+    switchBtn('all');
+    displayIssue(allIssues);
+});
 
-//     if ($issue.status === "open" ) {
+document.getElementById('btn-open').addEventListener('click', () => {
+    switchBtn('open');
+    const openData = allIssues.filter(item => item.status === 'open');
+    displayIssue(openData);
+});
 
-//          for (let issue of issues ){
-//         const issueDiv = document.createElement("div");
-//         issueDiv.innerHTML = `
-//         <div class="card w-100% shadow-md py-3 px-4 space-y-4 border-t-4 border-[#00A96E]">
-//             <div class="flex justify-between px-2 ">
-//                 <img src="images/Open-Status.png" alt="">
-//                 <h2 class="border-2 border-red-300 bg-rose-200 font-bold text-red-400 px-4 h-5 text-xs rounded-full">${issue.priority}</h2>
-//                 <p Class=""> ${issue.status} </p>
-//             </div>
+document.getElementById('btn-close').addEventListener('click', () => {
+    switchBtn('close');
+    const closeData = allIssues.filter(item => item.status === 'closed');
+    displayIssue(closeData);
+});
 
-//             <div class="">
-//                 <h2 class="font-semibold text-lg">${issue.title}</h2>
-//                 <p class=" text-[#64748B]">${issue.description}</p>
-//                 <button class="border-2 border-red-300 bg-rose-200 font-bold text-red-400 px-4 h-5 text-xs rounded-full"><i class="fa-solid fa-bug"></i> ${issue.labels[0]}</button>
-//                 <button class="border-2 border-amber-400 bg-yellow-300 font-bold text-amber-500 px-4 h-5 text-xs rounded-full"><i class="fa-solid fa-life-ring"></i> ${issue.labels[1]}</button>
-//             </div>
+document.getElementById('btn-search').addEventListener('click', async function() {
+    const searchText = document.getElementById('search-input').value.trim();
+    if(searchText === "") return loadIssues();
+    
+    const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchText}`);
+    const data = await res.json();
+    displayIssue(data.data);
+});
 
-//             <div class=" text-sm text-[#64748B] border-t-2 border-gray-300 flex justify-between">
-//                 <p>${issue.author}</p>
-//                 <p>${issue.createdAt}</p>
-//             </div>
-//             <div class=" text-sm text-[#64748B] flex justify-between">
-//                 <p>${issue.assignee}</p>
-//                 <p>${issue.updatedAt}</p>
-//             </div>
-//         </div>        
-//         `
-
-//         issueContainer.append(issueDiv);
-
-//     }
-//     }
-//     else{
-
-//     }
-
-// }
-
-
-
+switchBtn(currentBtn)
 
 loadIssues();
-
-
-// const displayOpenIssue = (openIssues) => {
-//     const openIssueContainer = document.getElementById("open-issue-container")
-//     openIssueContainer.innerHTML = "";
-
-//      for (let issue of issues ){
-//         const openIssueDiv = document.createElement("div");
-//         openIssueDiv.innerHTML = `
-//         <div class="card w-100% shadow-md py-3 px-4 space-y-4 border-t-4 border-[#00A96E]">
-//             <div class="flex justify-between px-2 ">
-//                 <img src="images/Open-Status.png" alt="">
-//                 <h2 class="border-2 border-red-300 bg-rose-200 font-bold text-red-400 px-4 h-5 text-xs rounded-full">${issue.priority}</h2>
-//                 <p Class="hidden"> ${issue.status} </p>
-//             </div>
-
-//             <div class="">
-//                 <h2 class="font-semibold text-lg">${issue.title}</h2>
-//                 <p class=" text-[#64748B]">${issue.description}</p>
-//                 <button class="border-2 border-red-300 bg-rose-200 font-bold text-red-400 px-4 h-5 text-xs rounded-full"><i class="fa-solid fa-bug"></i> ${issue.labels[0]}</button>
-//                 <button class="border-2 border-amber-400 bg-yellow-300 font-bold text-amber-500 px-4 h-5 text-xs rounded-full"><i class="fa-solid fa-life-ring"></i> ${issue.labels[1]}</button>
-//             </div>
-
-//             <div class=" text-sm text-[#64748B] border-t-2 border-gray-300 flex justify-between">
-//                 <p>${issue.author}</p>
-//                 <p>${issue.createdAt}</p>
-//             </div>
-//             <div class=" text-sm text-[#64748B] flex justify-between">
-//                 <p>${issue.assignee}</p>
-//                 <p>${issue.updatedAt}</p>
-//             </div>
-//         </div>        
-//         `
-
-//         openIssueContainer.append(openIssueDiv);
-
-//     }
-
-//     if (issue.status === "open"){
-//         const openIssueDiv = document.getElementById("issue-container")
-
-//     }
-// }
-
-

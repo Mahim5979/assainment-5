@@ -17,6 +17,7 @@
       <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
       <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
+    <link rel="shortcut icon" href="./images/fav icon.jpg" type="image/x-icon">
 
     <style>
         *{font-family: "Inter", sans-serif;
@@ -26,113 +27,79 @@
     </style>
 
 </head>
-<body >
 
+<body class="bg-base-100">
     <header>
-        <div class="navbar bg-base-100 shadow-sm flex-col md:flex-row justify-between px-20 rounded-lg">
-            <div class="nav-logo flex items-center gap-1">
-                <img class="h-9 w-9" src="images/github-logo.png" alt="">
-                <h2 class="text-2xl font-semibold">GitHub Issues Tracker</h2>
-
+        <div class="navbar bg-base-200 shadow-md flex flex-col gap-4 md:flex-row justify-between px-20">
+            <div class="flex-1">
+                <a class="btn btn-ghost text-xl"><img src="./images/github-logo.png" alt="" height="30" width="30"> GitHub Issues Tracker</a>
             </div>
-  
-            <div class="flex gap-4">
-                <button class="btn btn-ghost btn-circle avatar"><i class="fa-solid fa-magnifying-glass"></i></button>
-                <input type="text" placeholder="Search Issues..." class="input input-bordered w-24 md:w-auto" />
-                <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> New Issue</button>
-    
+            <div class="flex gap-2">
+                 <button class="btn btn-primary btn-outline btn-circle avatar" id='btn-search'><i class="fa-solid fa-magnifying-glass"></i></button>
+                <input type="text" placeholder="Search Issues..." id='search-input' class="input input-bordered w-24 md:w-auto" />
+                <div class="dropdown dropdown-end">
+                    <button class="btn btn-primary font-bold" id='btn-new-issue'><i class="fa-solid fa-plus"></i>New Issue</button>
+                </div>
             </div>
         </div>
-
     </header>
 
-    <section class="max-w-[1110px] mx-auto bg-base-300 mt-16 py-5 px-6 space-x-2 rounded-lg shadow-md" >
-        <button onclick="switchBtn(`all`)" id="btn-all" class=" btn h-10 w-28">all</button>
-        <button onclick="switchBtn(`open`)" id="btn-open"  class="btn h-10 w-28">Open</button>
-        <button onclick="switchBtn(`close`)" id="btn-close" class="btn h-10 w-28">Closed</button>
+    <section class="max-w-[1110px] mx-auto bg-base-200 shadow-md my-5 space-x-2.5 p-3 mt-6 rounded-lg">
+        <button id="btn-all" onclick="switchBtn('all')" class="btn h-10 w-28">all</button>
+        <button id="btn-open" onclick="switchBtn('open')" class="btn h-10 w-28">Open</button>
+        <button id="btn-close" onclick="switchBtn('close')" class="btn h-10 w-28">Closed</button>
     </section>
 
-    <section class="max-w-[1110px] mx-auto bg-base-300 mt-2 py-3 px-6 space-x-2 relative rounded-lg shadow-md">  
-        <div class="flex">
-            <img class="h-12 w-12 border-6 border-[#b092f5b2] rounded-full mr-2" src="images/Aperture.png" alt="">
-            <div class="">
-                <h2 class="text-xl font-bold"> <span id="issue-count">50</span> Issues  </h2>
-                <p class="text-[#64748B]"> Track and manage your project issues</p>
-            </div> 
-        </div>
-
-        <div class="flex gap-15  md:absolute top-11 right-20">
-            <p class="border-l-8 border-[#00A96E] h-2 w-2 rounded-full ">Open</p>
-            <p class="border-l-8 border-[#A855F7] h-2 w-2 rounded-full ">Closed</p>
-        </div>
-   
-
-    </section>
-
-
-    <section id="issue-container" class=" hidden max-w-[1110px] mx-auto bg-base-200 grid grid-cols-2 md:grid-cols-3 gap-4 mt-3 rounded-lg shadow-md">
-
-
-    </section>
-
-
-    <section id="open-issue-container" class="hidden max-w-[1110px] mx-auto bg-base-200 grid grid-cols-2 md:grid-cols-3 gap-4 mt-3 rounded-lg shadow-md">
-
-        Open Issues Container
-    </section>
-
-    <section id="close-issue-container" class="hidden max-w-[1110px] mx-auto bg-base-200 grid grid-cols-2 md:grid-cols-3 gap-4 mt-3 rounded-lg shadow-md">
-
-        Close Issues Container
-    </section>
-
-
-
-
-
-
-    <!-- <section id="open-issue-container" class="max-w-[1110px] mx-auto bg-base-200 grid grid-cols-2 md:grid-cols-3 gap-4 mt-3 rounded-lg shadow-md">
-
-        Open Issues Container
-    </section>
-
-    <section id="close-issue-container" class=" max-w-[1110px] mx-auto bg-base-200 grid grid-cols-2 md:grid-cols-3 gap-4 mt-3 rounded-lg shadow-md">
-
-        Close Issues Container
-    </section> -->
-
-
-
-
-<!-- 
-
-    <section class="max-w-[1110px] mx-auto bg-base-200 grid grid-cols-2 md:grid-cols-3 gap-5 ">
-        <div class="card w-100% shadow-md py-3 px-4 space-y-4">
-            <div class="flex justify-between px-2 ">
-                <img src="images/Open-Status.png" alt="">
-                <h2 class="border-2 border-red-300 bg-rose-200 font-bold text-red-400 px-4 h-5 text-xs rounded-full" >HIGH</h2>
+    <section class="max-w-[1110px] mx-auto bg-base-200 shadow-md my-5 space-x-2.5 p-3 mt-7 rounded-lg">
+        <div class="flex justify-between">
+            <div class="flex gap-2 items-center">
+                <div><img src="./images/Aperture.png" alt="" class="bg-gray-100 rounded-full p-2 h-12 w-12"></div>
+                <div>
+                    <p><span id="issue-count" class="font-bold text-xl">0</span><span class="font-bold text-xl"> Issues</span></p>
+                    <h3 class="text-[#64748B]">Track and manage your project issues</h3>
+                </div>
             </div>
-
-            <div class="">
-                <h2 class="font-semibold text-lg">Fix navigation menu on mobile devices</h2>
-                <p class=" text-[#64748B]">The navigation menu doesn't collapse properly on mobile devices...</p>
-                <button class="border-2 border-red-300 bg-rose-200 font-bold text-red-400 px-4 h-5 text-xs rounded-full"><i class="fa-solid fa-bug"></i> Bug</button>
-                <button class="border-2 border-amber-400 bg-yellow-300 font-bold text-amber-500 px-4 h-5 text-xs rounded-full"><i class="fa-solid fa-life-ring"></i> help wanted</button>
-            </div>
-
-            <div class=" text-sm text-[#64748B] border-t-2 border-gray-300 flex justify-between">
-                <p>john_doe</p>
-                <p>2024-01-15T10:30:00Z</p>
-            </div>
-            <div class=" text-sm text-[#64748B] flex justify-between">
-                <p>jane smith</p>
-                <p>2024-01-15T10:30:00Z</p>
+            <div class="flex gap-4 items-center">
+                <p class="flex items-center gap-1"><span class="inline-block bg-[#00A96E] p-2 rounded-full "></span> Open</p>
+                <p class="flex items-center gap-1"><span class="inline-block bg-[#A855F7] p-2 rounded-full "></span> Closed</p>
             </div>
         </div>
-      
+    </section>
 
-      
-    </section> -->
+    <section id="issue-container" class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-3 max-w-[1110px] mx-auto bg-base-200 mb-5">
+        </section>
+
+    <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box rounded-2xl p-6 flex flex-col gap-4">
+            <h2 id="modal-title" class="text-2xl font-bold"></h2>
+            <div class="flex items-center gap-2 text-sm text-gray-500 flex-wrap">
+                <span id="modal-status-badge" class="bg-green-500 text-white rounded-full px-3 py-1 text-sm font-bold"></span>
+                <span>•</span>
+                <span id="modal-author"></span>
+                <span>•</span>
+                <span id="modal-date"></span>
+            </div>
+            <div id="modal-labels" class="flex gap-2 flex-wrap"></div>
+            <p id="modal-description" class="text-sm text-gray-500"></p>
+            <div class="bg-gray-50 rounded-xl p-4 flex justify-between items-center">
+                <div>
+                    <p class="text-sm text-gray-400">Assignee:</p>
+                    <p id="modal-assignee" class="font-bold text-sm"></p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-400">Priority:</p>
+                    <span id="modal-priority" class="bg-red-500 text-white text-xs font-bold rounded-full px-5 py-2"></span>
+                </div>
+            </div>
+            <div class="modal-action mt-0">
+                <form method="dialog">
+                    <button class="btn bg-purple-600 text-white border-none rounded-xl px-6">Close</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
+
+
 
 
     <script src="script/home.js"></script>
